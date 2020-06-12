@@ -90,8 +90,8 @@ func (h Host) Exec(cmd string) string {
 	client, err = ssh.Dial("tcp", h.IP+":"+strconv.Itoa(h.Port), config)
 
 	if err != nil {
-			msg := fmt.Sprintf("Failed, ip %s, msg %s\n", h.IP, err.Error())
-			return msg
+		msg := fmt.Sprintf("Failed, ip %s, msg %s\n", h.IP, err.Error())
+		return msg
 	}
 
 	session, err = client.NewSession()
@@ -107,7 +107,7 @@ func (h Host) Exec(cmd string) string {
 		return fmt.Sprintf("Failed, ip %s, msg %s, err %s\n", h.IP, res.String(), err.Error())
 	}
 
-	return fmt.Sprintf("OK, ip %s, msg %s\n", h.IP, res.String())
+	return fmt.Sprintf("OK, ip %s\n=======================\n%s", h.IP, res.String())
 }
 
 func (h Host) Copy(src, dest, mask string) string {
