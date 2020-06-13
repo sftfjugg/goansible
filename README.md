@@ -2,6 +2,7 @@
 
 Use golang to implement some functions of ansible
 
+- use goroutine instead of multi-process
 - parallel remote bash execution on multiple Linux hosts
 - parallel copy file to multiple Linux hosts
 
