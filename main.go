@@ -8,9 +8,9 @@ import (
 )
 
 var (
-	hostsFile  string
-	module     string
-	cmd        string
+	hostsFile string
+	module    string
+	cmd       string
 	//outputFile string
 	fileSrc    string
 	fileDest   string
@@ -23,13 +23,21 @@ var (
 )
 
 func init() {
+	module = "shell"
 	hostsFile = "hosts.csv"
 	flag.StringVar(&hostsFile, "i", hostsFile, "csv file including hosts information")
-	flag.StringVar(&module, "m", "shell", "module, could be shell or copy, default shell")
+	flag.StringVar(&module, "m", module, "module, could be shell or copy, default shell")
 	flag.StringVar(&cmd, "c", "", "bash command to execute")
 	flag.StringVar(&fileSrc, "src", "", "source of the file to copy")
 	flag.StringVar(&fileDest, "dest", "", "destination of the file to copy")
 	flag.StringVar(&fileMask, "mask", "0744", "mask of the file to copy, default 0744")
+
+	flag.Parse()
+
+	modules := []string{"shell", "copy"}
+	if internal.Contain(modules, module) == false {
+		fmt.Println("You must specify a module")
+	}
 
 	hosts, err = ReadCsv(hostsFile)
 	if err != nil {
@@ -44,16 +52,6 @@ func init() {
 }
 
 func main() {
-
-	flag.Parse()
-	//if module == "" {
-	//	module = "shell"
-	//}
-
-	modules := []string{"shell", "copy"}
-	if internal.Contain(modules, module) == false {
-		fmt.Println("You must specify a module")
-	}
 	switch module {
 	case "shell":
 		if cmd == "" {
